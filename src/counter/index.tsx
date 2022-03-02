@@ -1,5 +1,6 @@
 import { Html } from 'elm-ts/lib/React';
-import * as Cmd from 'elm-ts/lib/Cmd'
+import * as Cmd from 'elm-ts/lib/Cmd';
+import { DefaultButton, PrimaryButton, TextField } from '@fluentui/react';
 
 // --- Model
 export type Model = {
@@ -20,7 +21,7 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
     case 'Decrement':
       return [{ ...model, counter: model.counter - 1 }, Cmd.none]
     case 'Reset':
-      return [{ ...model, counter: 0 }, Cmd.none]
+      return [{ ...model, counter: 0, name: '' }, Cmd.none]
     case 'OnChangeName':
       return [{ ...model, name: msg.value }, Cmd.none]
   }
@@ -31,10 +32,10 @@ export const view = (model: Model): Html<Msg> => {
   return dispatch => (
     <div>
       Count: {model.counter}
-      <button onClick={() => dispatch({ type: 'Increment' })}>+</button>
-      <button onClick={() => dispatch({ type: 'Decrement' })}>-</button>
-      <button onClick={() => dispatch({ type: 'Reset' })}>Reset</button>
-      <input value={model.name} type="text" onChange={(e) => dispatch({ type: 'OnChangeName', value: e.target.value })} />
+      <DefaultButton text='+' onClick={() => dispatch({ type: 'Increment' })} />
+      <DefaultButton text='-' onClick={() => dispatch({ type: 'Decrement' })} />
+      <PrimaryButton text='Reset' onClick={() => dispatch({ type: 'Reset' })} />
+      <TextField value={model.name} type='text' onChange={(_, newValue) => dispatch({ type: 'OnChangeName', value: newValue || '' })} />
     </div>
   )
 }
