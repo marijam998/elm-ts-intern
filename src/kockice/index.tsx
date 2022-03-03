@@ -41,7 +41,7 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
 // --- View
 export const view = (model: Model): Html<Msg> => {
     return dispatch => (
-        <div>
+        <div className='app'>
             <h2>{model.kockica1}</h2>
             <h2>{model.kockica2}</h2>
             <h2>{JSON.stringify(model.datum, null, 2)}</h2>

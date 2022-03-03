@@ -30,7 +30,7 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
 // --- View
 export const view = (model: Model): Html<Msg> => {
   return dispatch => (
-    <div>
+    <div className='app'>
       Count: {model.counter}
       <DefaultButton text='+' onClick={() => dispatch({ type: 'Increment' })} />
       <DefaultButton text='-' onClick={() => dispatch({ type: 'Decrement' })} />
