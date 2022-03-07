@@ -8,3 +8,16 @@
 .gifSearchButton{
     margin-bottom: 10px
 }
+.loading {
+    width: 30px;
+    height: 30px;
+    margin: 20px auto;
+    border-radius: 100%;
+    border-right: 5px solid rgb(85, 73, 163);
+    border-left: 5px solid #f1f1f1;
+    border-bottom: 5px solid #f1f1f1;
+    border-top: 5px solid #f1f1f1;
+    animation-name: rotation;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+  }

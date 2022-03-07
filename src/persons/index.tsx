@@ -54,7 +54,7 @@ const columns: IColumn[] = [{
     name: 'Grad',
     minWidth: 100,
     maxWidth: 100,
-    onRender: (item: Person) => <div>{item.date}</div>
+    onRender: (item: Person) => <div>{item.city}</div>
 },
 {
     key: 'adress',
@@ -70,7 +70,6 @@ export const view = (model: Model): Html<Msg> => {
     return dispatch => (
         <div>
             <DetailsList items={model.data || []} columns={columns} />
-
         </div>
     )
 }
