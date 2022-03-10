@@ -16,7 +16,7 @@ export type Model = {
 export const init: [Model, Cmd.Cmd<Msg>] = [{ data: null, topic: '' }, send(fetchGif(TOPIC), response => ({ type: 'FetchGif', data: response }))]
 
 // --- Messages
-export type Msg = { type: 'FetchGif', data: Either<HttpError, ApiGif> } | { type: 'OnChangeTopic', value: string } | { type: 'StartFetch' }
+export type Msg = { type: 'FetchGif', data: Either<HttpError, ApiGif> } | { type: 'ChangeTopic', value: string } | { type: 'StartFetch' }
 
 // --- Update
 export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
@@ -24,12 +24,15 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
         case 'StartFetch':
             return [model, send(fetchGif(model.topic), response => ({ type: 'FetchGif', data: response }))]
         case 'FetchGif': {
-            return msg.data.fold(error => {
-                console.log(error)
-                return [model, Cmd.none]
-            }, data => [{ ...model, data }, Cmd.none])
+            return msg.data.fold(
+                error => {
+                    console.log(error)
+                    return [model, Cmd.none]
+                },
+                data => [{ ...model, data }, Cmd.none]
+            )
         }
-        case 'OnChangeTopic':
+        case 'ChangeTopic':
             return [{ ...model, topic: msg.value }, Cmd.none]
     }
 }
@@ -38,7 +41,7 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
 export const view = (model: Model): Html<Msg> => {
     return dispatch => (
         <div className='app'>
-            <TextField className='textFieldGif' value={model.topic} onChange={(_, newValue) => dispatch({ type: 'OnChangeTopic', value: newValue || '' })} />
+            <TextField className='textFieldGif' value={model.topic} onChange={(_, newValue) => dispatch({ type: 'ChangeTopic', value: newValue || '' })} />
             <DefaultButton className='gifSearchButton' iconProps={{ iconName: 'Search' }} text='Search' onClick={() => dispatch({ type: 'StartFetch' })} />
             {model.data && <img src={model.data.data.images.downsized.url} width="300px" height="300px" />}
         </div>

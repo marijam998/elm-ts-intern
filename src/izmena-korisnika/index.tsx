@@ -5,8 +5,6 @@ import { TextField, DefaultButton } from '@fluentui/react';
 import { send, HttpError } from 'elm-ts/lib/Http'
 import { saveEdit, fetchUser, KorisnikCmd as Form, KorisnikResponse } from './api'
 import Loading from '../kreiranje/loading';
-import { type } from 'os';
-import { number } from 'io-ts';
 
 // --- Model
 
@@ -26,11 +24,11 @@ type Model = InitializingModel | ActiveModel | LoadingModel
 
 type Msg
     = { type: 'FetchUser', value: Either<HttpError, KorisnikResponse> }
-    | { type: 'OnChangeName', value: string }
-    | { type: 'OnChangeSureName', value: string }
-    | { type: 'OnChangeUserType', value: string }
-    | { type: 'OnChangeCity', value: string }
-    | { type: 'OnChangeAdress', value: string }
+    | { type: 'EditName', value: string }
+    | { type: 'EditSureName', value: string }
+    | { type: 'EditUserType', value: string }
+    | { type: 'EditCity', value: string }
+    | { type: 'EditAdress', value: string }
     | { type: 'Saving' }
     | { type: 'Saved', value: Either<HttpError, KorisnikResponse> }
 
@@ -59,7 +57,7 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
             )
         }
 
-        case 'OnChangeName': {
+        case 'EditName': {
             if (model.type !== 'ActiveModel') {
                 console.warn('NEVALIDNO STANJE MODELA!!!')
                 return [model, Cmd.none]
@@ -67,28 +65,28 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
             return [{ type: 'ActiveModel', form: { ...model.form, name: msg.value } }, Cmd.none]
         }
 
-        case 'OnChangeSureName': {
+        case 'EditSureName': {
             if (model.type !== 'ActiveModel') {
                 console.warn('NEVALIDNO STANJE MODELA!!!')
                 return [model, Cmd.none]
             }
             return [{ type: 'ActiveModel', form: { ...model.form, sureName: msg.value } }, Cmd.none]
         }
-        case 'OnChangeUserType': {
+        case 'EditUserType': {
             if (model.type !== 'ActiveModel') {
                 console.warn('NEVALIDNO STANJE MODELA!!!')
                 return [model, Cmd.none]
             }
             return [{ type: 'ActiveModel', form: { ...model.form, userType: msg.value } }, Cmd.none]
         }
-        case 'OnChangeCity': {
+        case 'EditCity': {
             if (model.type !== 'ActiveModel') {
                 console.warn('NEVALIDNO STANJE MODELA!!!')
                 return [model, Cmd.none]
             }
             return [{ type: 'ActiveModel', form: { ...model.form, city: msg.value } }, Cmd.none]
         }
-        case 'OnChangeAdress': {
+        case 'EditAdress': {
             if (model.type !== 'ActiveModel') {
                 console.warn('NEVALIDNO STANJE MODELA!!!')
                 return [model, Cmd.none]
@@ -127,15 +125,15 @@ export const view = (model: Model): Html<Msg> => {
             case 'ActiveModel': {
                 return (
                     <div className='app'>
-                        <TextField className='textFieldGif' label='Ime' value={model.form.name} onChange={(_, newValue) => dispatch({ type: 'OnChangeName', value: newValue || '' })} />
+                        <TextField className='textFieldGif' label='Ime' value={model.form.name} onChange={(_, newValue) => dispatch({ type: 'EditName', value: newValue || '' })} />
 
-                        <TextField className='textFieldGif' label='Prezime' value={model.form.sureName} onChange={(_, newValue) => dispatch({ type: 'OnChangeSureName', value: newValue || '' })} />
+                        <TextField className='textFieldGif' label='Prezime' value={model.form.sureName} onChange={(_, newValue) => dispatch({ type: 'EditSureName', value: newValue || '' })} />
 
-                        <TextField className='textFieldGif' label='Zanimanje' value={model.form.userType} onChange={(_, newValue) => dispatch({ type: 'OnChangeUserType', value: newValue || '' })} />
-                        <TextField className='textFieldGif' label='Grad' value={model.form.city} onChange={(_, newValue) => dispatch({ type: 'OnChangeCity', value: newValue || '' })} />
-                        <TextField className='textFieldGif' label='Adresa' value={model.form.adress} onChange={(_, newValue) => dispatch({ type: 'OnChangeAdress', value: newValue || '' })} />
+                        <TextField className='textFieldGif' label='Zanimanje' value={model.form.userType} onChange={(_, newValue) => dispatch({ type: 'EditUserType', value: newValue || '' })} />
+                        <TextField className='textFieldGif' label='Grad' value={model.form.city} onChange={(_, newValue) => dispatch({ type: 'EditCity', value: newValue || '' })} />
+                        <TextField className='textFieldGif' label='Adresa' value={model.form.adress} onChange={(_, newValue) => dispatch({ type: 'EditAdress', value: newValue || '' })} />
                         <TextField className='textFieldGif' label='Datum' value={model.form.date || ''} disabled={false} />
-                        <DefaultButton className='gifSearchButton' text='Sačuvaj korisnika' onClick={() => dispatch({ type: 'Saving' })} />
+                        <DefaultButton className='gifSearchButton' text='Sačuvaj izmenu' onClick={() => dispatch({ type: 'Saving' })} />
 
                     </div>
                 )

@@ -1,11 +1,9 @@
 import * as io from 'io-ts'
 import { none } from 'fp-ts/lib/Option'
-import { Request, expectJson, get, post } from 'elm-ts/lib/Http'
+import { Request, expectJson, get } from 'elm-ts/lib/Http'
 import { fromType } from 'elm-ts/lib/Decode'
-import { type } from 'os'
 
 const apiFetchUser = 'http://localhost:3001/person/1'
-const apiUpdateUser = 'http://localhost:3001/person/1'
 
 const ioKorisnikCmd = io.interface({
     name: io.string,

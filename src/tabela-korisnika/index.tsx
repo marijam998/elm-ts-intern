@@ -3,7 +3,7 @@ import * as Cmd from 'elm-ts/lib/Cmd';
 import { Either } from 'fp-ts/lib/Either';
 import { send, HttpError } from 'elm-ts/lib/Http';
 import { fetchUser, Persons, Person } from './api'
-import { DetailsList, IColumn, DefaultButton } from '@fluentui/react';
+import { DetailsList, IColumn } from '@fluentui/react';
 import moment from 'moment';
 
 // --- Model

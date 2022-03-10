@@ -26,12 +26,12 @@ export const init: [Model, Cmd.Cmd<Msg>] = [{ form: initialFormValue, isLoading:
 
 // --- Messages
 export type Msg = { type: 'StartKreirajKorisnik' }
-    | { type: 'OnChangeName', value: string }
-    | { type: 'OnChangeSureName', value: string }
-    | { type: 'OnChangeUserType', value: string }
-    | { type: 'OnChangeDate', value: string }
-    | { type: 'OnChangeCity', value: string }
-    | { type: 'OnChangeAdress', value: string }
+    | { type: 'ChangeName', value: string }
+    | { type: 'ChangeSureName', value: string }
+    | { type: 'ChangeUserType', value: string }
+    | { type: 'ChangeDate', value: string }
+    | { type: 'ChangeCity', value: string }
+    | { type: 'ChangeAdress', value: string }
     | { type: 'Saved', value: Either<HttpError, KreiranjeResponse> }
 
 // --- Update
@@ -42,17 +42,17 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
             const { form } = model
             return [{ ...model, isLoading: true }, send(kreirajKorisnik(form), response => ({ type: 'Saved', value: response }))]
         }
-        case 'OnChangeName':
+        case 'ChangeName':
             return [{ ...model, form: { ...model.form, name: msg.value } }, Cmd.none]
-        case 'OnChangeSureName':
+        case 'ChangeSureName':
             return [{ ...model, form: { ...model.form, sureName: msg.value } }, Cmd.none]
-        case 'OnChangeUserType':
+        case 'ChangeUserType':
             return [{ ...model, form: { ...model.form, userType: msg.value } }, Cmd.none]
-        case 'OnChangeDate':
+        case 'ChangeDate':
             return [{ ...model, form: { ...model.form, date: msg.value } }, Cmd.none]
-        case 'OnChangeCity':
+        case 'ChangeCity':
             return [{ ...model, form: { ...model.form, city: msg.value } }, Cmd.none]
-        case 'OnChangeAdress':
+        case 'ChangeAdress':
             return [{ ...model, form: { ...model.form, adress: msg.value } }, Cmd.none]
         case 'Saved': {
             return msg.value.fold((error) => {
@@ -73,12 +73,12 @@ export const view = (model: Model): Html<Msg> => {
         <div className='app'>{
             !model.isLoading ?
                 <div>
-                    <TextField className='textFieldGif' label='Ime' value={form.name} onChange={(_, newValue) => dispatch({ type: 'OnChangeName', value: newValue || '' })} />
-                    <TextField className='textFieldGif' label='Prezime' value={form.sureName} onChange={(_, newValue) => dispatch({ type: 'OnChangeSureName', value: newValue || '' })} />
-                    <TextField className='textFieldGif' label='Zanimanje' value={form.userType} onChange={(_, newValue) => dispatch({ type: 'OnChangeUserType', value: newValue || '' })} />
-                    <TextField className='textFieldGif' label='Datum' value={form.date || ''} onChange={(_, newValue) => dispatch({ type: 'OnChangeDate', value: newValue || '' })} />
-                    <TextField className='textFieldGif' label='Grad' value={form.city} onChange={(_, newValue) => dispatch({ type: 'OnChangeCity', value: newValue || '' })} />
-                    <TextField className='textFieldGif' label='Adresa' value={form.adress} onChange={(_, newValue) => dispatch({ type: 'OnChangeAdress', value: newValue || '' })} />
+                    <TextField className='textFieldGif' label='Ime' value={form.name} onChange={(_, newValue) => dispatch({ type: 'ChangeName', value: newValue || '' })} />
+                    <TextField className='textFieldGif' label='Prezime' value={form.sureName} onChange={(_, newValue) => dispatch({ type: 'ChangeSureName', value: newValue || '' })} />
+                    <TextField className='textFieldGif' label='Zanimanje' value={form.userType} onChange={(_, newValue) => dispatch({ type: 'ChangeUserType', value: newValue || '' })} />
+                    <TextField className='textFieldGif' label='Datum' value={form.date || ''} onChange={(_, newValue) => dispatch({ type: 'ChangeDate', value: newValue || '' })} />
+                    <TextField className='textFieldGif' label='Grad' value={form.city} onChange={(_, newValue) => dispatch({ type: 'ChangeCity', value: newValue || '' })} />
+                    <TextField className='textFieldGif' label='Adresa' value={form.adress} onChange={(_, newValue) => dispatch({ type: 'ChangeAdress', value: newValue || '' })} />
                     <DefaultButton className='gifSearchButton' text='Dodaj korisnika' onClick={() => dispatch({ type: 'StartKreirajKorisnik' })} />
                 </div> :
                 <Loading />

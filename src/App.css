@@ -2,6 +2,28 @@
     margin : 10px;
     width: 300px
 }
+.table-form{
+    width: 800px;
+}
+h4 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(50, 49, 48);
+    font-weight: 500;
+}
+.form { 
+    margin-left : 20px;
+    margin-top: 20px;
+    width: 300px;
+    display: inline-block;
+}
+.forms{
+    margin-left: 50px;
+    width: 800px;
+}
+.table {
+    width: 800px;
+    margin-left: 50px;
+}
 .textFieldGif {
     margin-bottom: 10px
 }
