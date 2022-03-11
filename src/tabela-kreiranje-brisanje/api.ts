@@ -56,14 +56,14 @@ export const kreirajKorisnik = (korisnik: Person): Request<KreiranjeResponse> =>
 
 //brisanje koirsnika
 
-export const deleteUser = (korisnik: Person): Request<KorisnikResponse> => {
+export const deleteUser = (id: number): Request<KreiranjeResponse> => {
     return {
         method: 'DELETE',
         headers: {
             "Content-Type": "application/json"
         },
-        url: `${url}${korisnik.id}`,
-        expect: expectJson(fromType(ioPerson)),
+        url: `${url}${id}`,
+        expect: expectJson(fromType(ioKreiranjeResponse)),
         timeout: none,
         withCredentials: false,
     }

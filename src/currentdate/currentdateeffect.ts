@@ -7,18 +7,18 @@ export const getCurrentDate = <Msg>(fn: (date: Date) => Msg): Cmd.Cmd<Msg> => pe
 )
 
 
-const customMap = (fn: (value: number) => number, arr: Array<number>): Array<number> => {
-    const temp = [];
-    let i = 0;
-    while (arr.length > i) {
-        temp.push(fn(arr[i]))
-        i++;
-    }
-    return temp;
-}
+// const customMap = (fn: (value: number) => number, arr: Array<number>): Array<number> => {
+//     const temp = [];
+//     let i = 0;
+//     while (arr.length > i) {
+//         temp.push(fn(arr[i]))
+//         i++;
+//     }
+//     return temp;
+// }
 
 
-customMap(x => x * 2, [1, 2, 3, 4, 5, 6])
+// customMap(x => x * 2, [1, 2, 3, 4, 5, 6])
 
 
 // Zadatak

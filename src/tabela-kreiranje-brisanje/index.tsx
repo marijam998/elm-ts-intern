@@ -7,6 +7,7 @@ import { saveEdit, fetchUser, KorisnikResponse, Person, Persons, Persons as Tabl
 import Loading from '../kreiranje/loading';
 import moment from 'moment';
 
+
 // --- Model
 
 type Form = Person
@@ -45,6 +46,8 @@ type Msg
     | { type: 'SavedEdit', value: Either<HttpError, KorisnikResponse> }
     | { type: 'Saved', value: Either<HttpError, KreiranjeResponse> }
     | { type: 'ChangeSelection', value: Person[] }
+    | { type: 'StartDelete', value: number }
+    | { type: 'Deleted', value: Either<HttpError, KreiranjeResponse> }
 
 const initialTableValue: Table = []
 
@@ -57,7 +60,7 @@ const initialFormValue: Form = {
     city: '',
     adress: '',
 }
-const columns: IColumn[] = [{
+const columns = (dispatch: any): IColumn[] => [{
     key: 'name',
     name: 'Ime i prezime',
     minWidth: 100,
@@ -92,6 +95,13 @@ const columns: IColumn[] = [{
     minWidth: 100,
     maxWidth: 100,
     onRender: (item: Person) => <div>{item.adress}</div>
+},
+{
+    key: 'delete',
+    name: 'Obriši korisnika',
+    minWidth: 100,
+    maxWidth: 100,
+    onRender: (item: Person) => <div><DefaultButton text='Obriši' onClick={() => dispatch({ type: 'StartDelete', value: item.id })} /></div>
 }
 ]
 
@@ -230,6 +240,26 @@ export const update = (msg: Msg, model: Model): [Model, Cmd.Cmd<Msg>] => {
                 return init
             })
         }
+        case 'StartDelete': {
+            if (model.type !== 'ActiveModel') {
+                console.warn('NEVALIDNO STANJE MODELA!!!')
+                return [model, Cmd.none]
+            }
+            return [{ type: 'LoadingModel', blockedModel: model }, send(deleteUser(msg.value), response => ({ type: 'Deleted', value: response }))]
+        }
+        case 'Deleted': {
+            if (model.type !== 'LoadingModel') {
+                console.warn('NEVALIDNO STANJE MODELA!!!')
+                return [model, Cmd.none]
+            }
+            return msg.value.fold((error) => {
+                console.log(error)
+                return init
+            }, response => {
+                console.log('Uspesno promenjen korisnik pod ID: ', response.id)
+                return init
+            })
+        }
     }
 }
 
@@ -243,7 +273,7 @@ export const view = (model: Model): Html<Msg> => {
                 return (
                     <div className='table-form'>
                         <div className='table'>
-                            <DetailsList onActiveItemChanged={item => dispatch({ type: 'ChangeSelection', value: [item] })} items={model.tableData || []} columns={columns} />
+                            <DetailsList onActiveItemChanged={item => dispatch({ type: 'ChangeSelection', value: [item] })} items={model.tableData || []} columns={columns(dispatch)} />
                         </div>
                         <div className='forms'>
                             <div className='form'>
